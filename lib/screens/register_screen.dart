@@ -41,9 +41,9 @@ class RegisterScreen extends StatelessWidget {
             ElevatedButton(
               // Handle login logic...
               onPressed: () {
-                Navigator.pushReplacementNamed(context, '/market');
+                Navigator.pushReplacementNamed(context, '/homepage');
               },
-              child: Text("Register"),
+              child: const Text("Register"),
             ),
           ],
         ),

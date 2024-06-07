@@ -1,3 +1,4 @@
+// market_screen.dart
 import 'package:flutter/material.dart';
 
 class MarketScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _MarketScreenState extends State<MarketScreen> {
       _isSellFocused = false;
       _isBuyFocused = true;
       _isLearnEarnFocused = false;
-      Navigator.pushReplacementNamed(context, '/buy');
+      Navigator.pushNamed(context, '/buy');
     });
   }
 
@@ -32,7 +33,7 @@ class _MarketScreenState extends State<MarketScreen> {
       _isSellFocused = false;
       _isBuyFocused = false;
       _isLearnEarnFocused = true;
-      Navigator.pushReplacementNamed(context, '/learn');
+      Navigator.pushNamed(context, '/learn');
     });
   }
 
@@ -60,8 +61,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     width: double.infinity,
                     height: _isSellFocused ? 160.0 : 150.0,
                     decoration: BoxDecoration(
-                      color:
-                          _isSellFocused ? Colors.blue[100] : Colors.grey[200],
+                      color: _isSellFocused ? Colors.blue[100] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: _isSellFocused
                           ? [BoxShadow(color: Colors.blue, blurRadius: 10.0)]
@@ -93,8 +93,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     width: double.infinity,
                     height: _isBuyFocused ? 160.0 : 150.0,
                     decoration: BoxDecoration(
-                      color:
-                          _isBuyFocused ? Colors.green[100] : Colors.grey[200],
+                      color: _isBuyFocused ? Colors.green[100] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: _isBuyFocused
                           ? [BoxShadow(color: Colors.green, blurRadius: 10.0)]
@@ -126,9 +125,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     width: double.infinity,
                     height: _isLearnEarnFocused ? 160.0 : 150.0,
                     decoration: BoxDecoration(
-                      color: _isLearnEarnFocused
-                          ? Colors.orange[100]
-                          : Colors.grey[200],
+                      color: _isLearnEarnFocused ? Colors.orange[100] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: _isLearnEarnFocused
                           ? [BoxShadow(color: Colors.orange, blurRadius: 10.0)]

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'screens/home_screen.dart';
+import 'screens/welcome_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/loading_screen.dart';
 import 'screens/register_screen.dart';
@@ -11,6 +11,7 @@ import 'screens/veggies_grain_screen.dart';
 import 'screens/learning_screen.dart';
 import 'screens/cart_model.dart';
 import '../providers/article_provider.dart';
+import 'screens/homepage_screen.dart';
 
 void main() {
   runApp(
@@ -41,12 +42,13 @@ class FarmBoostApp extends StatelessWidget {
         '/': (context) => LoadingScreen(),
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => WelcomeScreen(),
         '/market': (context) => MarketScreen(),
         '/buy': (context) => BuyScreen(),
         '/fruit': (context) => FruitScreen(),
         '/other': (context) => VeggiesGrainsScreen(),
         '/learn': (context) => LearnAndGrowScreen(),
+        '/homepage':(context)=> HomePage(),
       },
     );
   }

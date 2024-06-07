@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'home_screen.dart';
+import 'welcome_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => WelcomeScreen()),
     );
   }
 
