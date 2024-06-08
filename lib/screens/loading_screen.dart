@@ -1,6 +1,6 @@
+import 'package:farmboost/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'welcome_screen.dart';
+import 'login_screen.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   _navigateToNextScreen() async {
-    await Future.delayed(Duration(seconds: 3), () {});
+    await Future.delayed(Duration(seconds: 10), () {});
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => WelcomeScreen()),
@@ -29,28 +29,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
         fit: StackFit.expand,
         children: [
           Image.asset(
-            'assets/images/background.jpg',
+            'assets/images/logo.gif',
             fit: BoxFit.cover,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Center(
-                  child: Text(
-                'Welcome to FARMarket. Your one stop  Grocery Shop.',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.deepOrangeAccent,
-                ),
-              )),
-              SizedBox(height: 20.0),
-              SpinKitCircle(
-                color: Colors.blue,
-                size: 50.0,
-              ),
-            ],
-          ),
+
         ],
       ),
     );

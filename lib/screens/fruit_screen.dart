@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 import 'cart_screen.dart';
 import 'cart_model.dart';
+import '../providers/produce_provider.dart';
+import '../models/produce_model.dart';
 
 class FruitScreen extends StatefulWidget {
   @override
@@ -9,50 +12,17 @@ class FruitScreen extends StatefulWidget {
 }
 
 class _FruitScreenState extends State<FruitScreen> {
-  final List<Product> fruits = [
-    Product(
-      name: 'Apple',
-      description: 'A sweet, edible fruit produced by an apple tree.',
-      quantity: 1,
-      price: 1.99,
-      imageUrl: 'assets/images/apple.jpg',
-    ),
-    Product(
-      name: 'Banana',
-      description:
-          'An elongated, edible fruit produced by several kinds of large herbaceous flowering plants.',
-      quantity: 1,
-      price: 0.99,
-      imageUrl: 'assets/images/banana.jpg',
-    ),
-    Product(
-      name: 'Orange',
-      description:
-          'The fruit of various citrus species in the family Rutaceae.',
-      quantity: 1,
-      price: 1.49,
-      imageUrl: 'assets/images/orange.jpg',
-    ),
-    Product(
-      name: 'Strawberry',
-      description: 'A widely grown hybrid species of the genus Fragaria.',
-      quantity: 1,
-      price: 2.99,
-      imageUrl: 'assets/images/strawberry.jpg',
-    ),
-  ];
-
-  List<Product> displayedFruits = [];
+  List<Produce> displayedFruits = [];
 
   @override
   void initState() {
     super.initState();
-    displayedFruits = fruits;
+    displayedFruits = [];
   }
 
-  void _searchFruits(String query) {
+  void _searchFruits(String query, List<Produce> fruits) {
     final results = fruits.where((fruit) {
-      final fruitLower = fruit.name.toLowerCase();
+      final fruitLower = fruit.description.toLowerCase();
       final queryLower = query.toLowerCase();
 
       return fruitLower.contains(queryLower);
@@ -68,6 +38,7 @@ class _FruitScreenState extends State<FruitScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Fruits'),
+        backgroundColor: Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
             builder: (context, cart, child) {
@@ -112,82 +83,112 @@ class _FruitScreenState extends State<FruitScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
+        fit: StackFit.expand,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+          // Image.asset(
+          //   'assets/images/gold.jpg',
+          //   fit: BoxFit.cover,
+          // ),
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onChanged: (query) {
+                    _searchFruits(
+                        query,
+                        Provider.of<ProduceProvider>(context, listen: false)
+                            .fruits);
+                  },
                 ),
               ),
-              onChanged: _searchFruits,
-            ),
-          ),
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(10),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2 / 3,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+              Expanded(
+                child: Consumer<ProduceProvider>(
+                  builder: (context, produceProvider, child) {
+                    final fruits = produceProvider.fruits;
+                    final List<Produce> productsToDisplay =
+                        displayedFruits.isEmpty ? fruits : displayedFruits;
+
+                    return GridView.builder(
+                      padding: const EdgeInsets.all(10),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 2 / 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                      ),
+                      itemCount: productsToDisplay.length,
+                      itemBuilder: (context, index) {
+                        final fruit = productsToDisplay[index];
+                        return Card(
+                          color: Colors.orange.shade50,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Image.file(File(fruit.imageUrl),
+                                    fit: BoxFit.cover),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                fruit.description,
+                                style: TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                fruit.location,
+                                style: TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                '\$${fruit.price.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.orange),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 10),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.orange,
+                                ),
+                                onPressed: () {
+                                  Provider.of<CartModel>(context, listen: false)
+                                      .add(Product(
+                                    name: fruit.description,
+                                    description: fruit.description,
+                                    quantity: 1,
+                                    price: fruit.price,
+                                    imageUrl: fruit.imageUrl,
+                                  ));
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          '${fruit.description} added to cart'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                                child: Text('Add to Cart'),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               ),
-              itemCount: displayedFruits.length,
-              itemBuilder: (context, index) {
-                final fruit = displayedFruits[index];
-                return Card(
-                  color: Colors.orange.shade50,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Image.asset(fruit.imageUrl, fit: BoxFit.cover),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        fruit.name,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        fruit.description,
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        '\$${fruit.price.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 18, color: Colors.orange),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                        ),
-                        onPressed: () {
-                          Provider.of<CartModel>(context, listen: false)
-                              .add(fruit);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${fruit.name} added to cart'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        },
-                        child: Text('Add to Cart'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+            ],
           ),
         ],
       ),

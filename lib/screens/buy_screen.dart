@@ -30,15 +30,18 @@ class _BuyState extends State<BuyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('What are you looking for Today?'),
-        backgroundColor: Colors.green[700],
-      ),
       body: Container(
         color: Colors.green[50],
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Center(
+              child: Text(
+                'Categories',
+                style: TextStyle(color: Color(0xffED7E0D), fontSize: 40),
+              ),
+            ),
+            SizedBox(height: 30),
             Expanded(
               child: MouseRegion(
                 onEnter: (_) => setState(() => _isFruitFocused = true),

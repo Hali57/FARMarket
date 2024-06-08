@@ -21,10 +21,12 @@ class WelcomeScreen extends StatelessWidget {
           ),
           Center(
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
                       onPressed: () => {

@@ -12,6 +12,8 @@ import 'screens/learning_screen.dart';
 import 'screens/cart_model.dart';
 import '../providers/article_provider.dart';
 import 'screens/homepage_screen.dart';
+import 'providers/produce_provider.dart';
+import 'screens/sell_screen.dart';
 
 void main() {
   runApp(
@@ -19,6 +21,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => CartModel()),
         ChangeNotifierProvider(create: (context) => ArticleProvider()),
+        ChangeNotifierProvider(create: (_) => ProduceProvider()),
       ],
       child: FarmBoostApp(),
     ),
@@ -48,7 +51,8 @@ class FarmBoostApp extends StatelessWidget {
         '/fruit': (context) => FruitScreen(),
         '/other': (context) => VeggiesGrainsScreen(),
         '/learn': (context) => LearnAndGrowScreen(),
-        '/homepage':(context)=> HomePage(),
+        '/homepage': (context) => HomePage(),
+        '/sell': (context) => SalesPage(),
       },
     );
   }

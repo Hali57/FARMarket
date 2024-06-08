@@ -4,6 +4,12 @@ import 'market_screen.dart';
 import 'services_screen.dart';
 import 'donations_screen.dart';
 
+final gradient = LinearGradient(
+  begin: Alignment.topLeft, // Start point of the gradient
+  end: Alignment.bottomRight, // End point of the gradient
+  colors: [Color(0xff3FA843), Color(0xffED7E0D)], // Colors to blend
+);
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -11,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static  List<Widget> _pages = <Widget>[
+  static List<Widget> _pages = <Widget>[
     MarketScreen(),
     ServicesScreen(),
     DonationsScreen(),
@@ -27,7 +33,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Navigation Bar'),
+        title: Center(
+          child: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'FARM',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff3FA843), // Customize color for "FARM"
+                  ),
+                ),
+                TextSpan(
+                  text: 'arket',
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    color: Color(0xffED7E0D), // Customize color for "arket"
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: _pages.elementAt(_selectedIndex),
       drawer: Drawer(
@@ -36,10 +64,10 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                gradient: gradient,
               ),
               child: Text(
-                'Navigation',
+                'Profile',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
