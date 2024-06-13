@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BuyScreen extends StatefulWidget {
+  const BuyScreen({super.key});
+
   @override
   _BuyState createState() => _BuyState();
 }
@@ -35,13 +37,13 @@ class _BuyState extends State<BuyScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Categories',
                 style: TextStyle(color: Color(0xffED7E0D), fontSize: 40),
               ),
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Expanded(
               child: MouseRegion(
                 onEnter: (_) => setState(() => _isFruitFocused = true),
@@ -49,7 +51,7 @@ class _BuyState extends State<BuyScreen> {
                 child: GestureDetector(
                   onTap: _onTapFruit,
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     width: double.infinity,
                     height: _isFruitFocused ? 160.0 : 150.0,
@@ -59,10 +61,10 @@ class _BuyState extends State<BuyScreen> {
                           : Colors.grey[200],
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: _isFruitFocused
-                          ? [BoxShadow(color: Colors.orange, blurRadius: 10.0)]
-                          : [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
+                          ? [const BoxShadow(color: Colors.orange, blurRadius: 10.0)]
+                          : [const BoxShadow(color: Colors.grey, blurRadius: 5.0)],
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Fruits',
                         style: TextStyle(
@@ -75,7 +77,7 @@ class _BuyState extends State<BuyScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
             Expanded(
               child: MouseRegion(
                 onEnter: (_) => setState(() => _isOtherFocused = true),
@@ -83,7 +85,7 @@ class _BuyState extends State<BuyScreen> {
                 child: GestureDetector(
                   onTap: _onTapOther,
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     width: double.infinity,
                     height: _isFruitFocused ? 160.0 : 150.0,
@@ -93,10 +95,10 @@ class _BuyState extends State<BuyScreen> {
                           : Colors.grey[200],
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: _isOtherFocused
-                          ? [BoxShadow(color: Colors.green, blurRadius: 10.0)]
-                          : [BoxShadow(color: Colors.grey, blurRadius: 5.0)],
+                          ? [const BoxShadow(color: Colors.green, blurRadius: 10.0)]
+                          : [const BoxShadow(color: Colors.grey, blurRadius: 5.0)],
                     ),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Veggies and Grain ',
                         style: TextStyle(

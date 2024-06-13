@@ -4,23 +4,25 @@ import 'market_screen.dart';
 import 'services_screen.dart';
 import 'donations_screen.dart';
 
-final gradient = LinearGradient(
+const gradient = LinearGradient(
   begin: Alignment.topLeft, // Start point of the gradient
   end: Alignment.bottomRight, // End point of the gradient
   colors: [Color(0xff3FA843), Color(0xffED7E0D)], // Colors to blend
 );
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static List<Widget> _pages = <Widget>[
-    MarketScreen(),
-    ServicesScreen(),
-    DonationsScreen(),
+  static final List<Widget> _pages = <Widget>[
+    const MarketScreen(),
+    const ServicesScreen(),
+    const DonationsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -35,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Center(
           child: RichText(
-            text: TextSpan(
+            text: const TextSpan(
               children: [
                 TextSpan(
                   text: 'FARM',
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 gradient: gradient,
               ),
@@ -75,24 +77,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Home'),
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
               onTap: () {
                 _onItemTapped(0);
                 Navigator.pop(context); // close the drawer
               },
             ),
             ListTile(
-              leading: Icon(Icons.build),
-              title: Text('Services'),
+              leading: const Icon(Icons.build),
+              title: const Text('Services'),
               onTap: () {
                 _onItemTapped(1);
                 Navigator.pop(context); // close the drawer
               },
             ),
             ListTile(
-              leading: Icon(Icons.favorite),
-              title: Text('Donations'),
+              leading: const Icon(Icons.favorite),
+              title: const Text('Donations'),
               onTap: () {
                 _onItemTapped(2);
                 Navigator.pop(context); // close the drawer

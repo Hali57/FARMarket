@@ -5,18 +5,20 @@ import '../providers/article_provider.dart';
 import '../models/article_model.dart';
 
 class LearnAndGrowScreen extends StatelessWidget {
+  const LearnAndGrowScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => ArticleProvider()..fetchArticles(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Recipes'),
+          title: const Text('Recipes'),
         ),
         body: Consumer<ArticleProvider>(
           builder: (context, provider, child) {
             if (provider.loading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
 
             return ListView.builder(
@@ -24,7 +26,7 @@ class LearnAndGrowScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 Article article = provider.articles[index];
                 return Card(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -34,7 +36,7 @@ class LearnAndGrowScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           article.title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),

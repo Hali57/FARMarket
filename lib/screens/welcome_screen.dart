@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.colorScheme.onSecondary,
       appBar: AppBar(
-          backgroundColor: Color(0xFFF5E0C3),
-          title: Center(
+          backgroundColor: const Color(0xFFF5E0C3),
+          title: const Center(
               child: Text(
             ' FARMarket',
           ))),
@@ -32,14 +34,14 @@ class WelcomeScreen extends StatelessWidget {
                       onPressed: () => {
                         Navigator.pushReplacementNamed(context, '/login'),
                       },
-                      child: Text('Login'),
+                      child: const Text('Login'),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () => {
                         Navigator.pushReplacementNamed(context, '/register'),
                       },
-                      child: Text('Register'),
+                      child: const Text('Register'),
                     ),
                   ],
                 ),

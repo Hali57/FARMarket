@@ -1,7 +1,10 @@
-// market_screen.dart
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MarketScreen extends StatefulWidget {
+  const MarketScreen({super.key});
+
   @override
   _MarketScreenState createState() => _MarketScreenState();
 }
@@ -10,6 +13,26 @@ class _MarketScreenState extends State<MarketScreen> {
   bool _isSellFocused = false;
   bool _isBuyFocused = false;
   bool _isLearnEarnFocused = false;
+  String? userRole;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserRole();
+  }
+
+  Future<void> _fetchUserRole() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        userRole = userDoc['role'];
+      });
+    }
+  }
 
   void _onTapSell() {
     setState(() {
@@ -41,16 +64,11 @@ class _MarketScreenState extends State<MarketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Image.asset(
-          //   'assets/images/market.jpg',
-          //   fit: BoxFit.cover,
-          // ),
           Container(
-            color: Color(0xFFF5E0C3),
+            color: const Color(0xFFF5E0C3),
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
@@ -61,7 +79,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     child: GestureDetector(
                       onTap: _onTapSell,
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         width: double.infinity,
                         height: _isSellFocused ? 160.0 : 150.0,
@@ -72,11 +90,12 @@ class _MarketScreenState extends State<MarketScreen> {
                           borderRadius: BorderRadius.circular(12.0),
                           boxShadow: _isSellFocused
                               ? [
-                                  BoxShadow(
+                                  const BoxShadow(
                                       color: Colors.blue, blurRadius: 10.0)
                                 ]
                               : [
-                                  BoxShadow(color: Colors.grey, blurRadius: 5.0)
+                                  const BoxShadow(
+                                      color: Colors.grey, blurRadius: 5.0)
                                 ],
                         ),
                         child: Center(
@@ -100,7 +119,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     child: GestureDetector(
                       onTap: _onTapBuy,
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         width: double.infinity,
                         height: _isBuyFocused ? 160.0 : 150.0,
@@ -111,14 +130,15 @@ class _MarketScreenState extends State<MarketScreen> {
                           borderRadius: BorderRadius.circular(12.0),
                           boxShadow: _isBuyFocused
                               ? [
-                                  BoxShadow(
+                                  const BoxShadow(
                                       color: Colors.green, blurRadius: 10.0)
                                 ]
                               : [
-                                  BoxShadow(color: Colors.grey, blurRadius: 5.0)
+                                  const BoxShadow(
+                                      color: Colors.grey, blurRadius: 5.0)
                                 ],
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'Buy',
                             style: TextStyle(
@@ -131,7 +151,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Expanded(
                   child: MouseRegion(
                     onEnter: (_) => setState(() => _isLearnEarnFocused = true),
@@ -139,7 +159,7 @@ class _MarketScreenState extends State<MarketScreen> {
                     child: GestureDetector(
                       onTap: _onTapLearnEarn,
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         curve: Curves.easeInOut,
                         width: double.infinity,
                         height: _isLearnEarnFocused ? 160.0 : 150.0,
@@ -150,14 +170,15 @@ class _MarketScreenState extends State<MarketScreen> {
                           borderRadius: BorderRadius.circular(12.0),
                           boxShadow: _isLearnEarnFocused
                               ? [
-                                  BoxShadow(
+                                  const BoxShadow(
                                       color: Colors.orange, blurRadius: 10.0)
                                 ]
                               : [
-                                  BoxShadow(color: Colors.grey, blurRadius: 5.0)
+                                  const BoxShadow(
+                                      color: Colors.grey, blurRadius: 5.0)
                                 ],
                         ),
-                        child: Center(
+                        child: const Center(
                           child: Text(
                             'Eat Healthy Recipes',
                             style: TextStyle(

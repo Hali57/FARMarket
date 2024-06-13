@@ -6,6 +6,8 @@ import '../providers/produce_provider.dart';
 import 'dart:io';
 
 class SalesPage extends StatefulWidget {
+  const SalesPage({super.key});
+
   @override
   _SalesPageState createState() => _SalesPageState();
 }
@@ -51,7 +53,7 @@ class _SalesPageState extends State<SalesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post Your Produce for Sale'),
+        title: const Text('Post Your Produce for Sale'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -67,14 +69,14 @@ class _SalesPageState extends State<SalesPage> {
                     border: Border.all(color: Colors.grey),
                   ),
                   child: _image == null
-                      ? Center(child: Text('Tap to add image'))
+                      ? const Center(child: Text('Tap to add image'))
                       : Image.file(_image!, fit: BoxFit.cover),
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
+                decoration: const InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a description';
@@ -84,7 +86,7 @@ class _SalesPageState extends State<SalesPage> {
               ),
               TextFormField(
                 controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
+                decoration: const InputDecoration(labelText: 'Location'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a location';
@@ -94,7 +96,7 @@ class _SalesPageState extends State<SalesPage> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price per kg'),
+                decoration: const InputDecoration(labelText: 'Price per kg'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -107,7 +109,7 @@ class _SalesPageState extends State<SalesPage> {
                 },
               ),
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Category'),
+                decoration: const InputDecoration(labelText: 'Category'),
                 items: ['Fruit', 'Vegetables', 'Grain'].map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
@@ -126,10 +128,10 @@ class _SalesPageState extends State<SalesPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text('Submit'),
+                child: const Text('Submit'),
               ),
             ],
           ),

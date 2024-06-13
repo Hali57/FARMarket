@@ -2,13 +2,15 @@
 import 'package:flutter/material.dart';
 
 class ServicesScreen extends StatelessWidget {
+  const ServicesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Services'),
+        title: const Text('Services'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Services Page',
           style: TextStyle(fontSize: 24),

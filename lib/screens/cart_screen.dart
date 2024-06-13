@@ -3,11 +3,13 @@ import 'package:provider/provider.dart';
 import 'cart_model.dart';
 
 class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        title: const Text('Cart'),
       ),
       body: Consumer<CartModel>(
         builder: (context, cart, child) {
@@ -27,14 +29,14 @@ class CartScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.add),
+                              icon: const Icon(Icons.add),
                               onPressed: () {
                                 cart.increaseQuantity(product);
                               },
                             ),
                             Text('${product.quantity}'),
                             IconButton(
-                              icon: Icon(Icons.remove),
+                              icon: const Icon(Icons.remove),
                               onPressed: () {
                                 cart.decreaseQuantity(product);
                                 if (product.quantity == 0) {
@@ -56,13 +58,13 @@ class CartScreen extends StatelessWidget {
                   children: [
                     Text(
                       'Total: \$${cart.totalPrice.toStringAsFixed(2)}',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     ElevatedButton(
                       onPressed: () {
                         // Implement checkout functionality here
                       },
-                      child: Text('Checkout'),
+                      child: const Text('Checkout'),
                     ),
                   ],
                 ),

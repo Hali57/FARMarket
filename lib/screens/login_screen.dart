@@ -1,14 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>(); // For form validation
-  String _email = "";
-  String _password = "";
+  final _formKey = GlobalKey<FormState>();
+  late String _email;
+  late String _password;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _loginUser() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      try {
+        // Use Firebase Authentication to sign in with email and password
+        final UserCredential userCredential =
+            await _auth.signInWithEmailAndPassword(
+          email: _email,
+          password: _password,
+        );
+
+        // Fetch additional user data from Firestore if needed
+        final User? user = userCredential.user;
+        if (user != null) {
+          // Example: Fetch user document from Firestore
+          DocumentSnapshot<Map<String, dynamic>> snapshot =
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .get();
+
+          // Navigate to homepage or another screen upon successful login
+          Navigator.pushReplacementNamed(context, '/homepage');
+        }
+      } catch (e) {
+        print('Error: $e');
+        // Handle errors here (e.g., display error message)
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,16 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Positioned(
-          //   top: -58.5,
-          //   left: -17.2,
-          //   child: Image.asset(
-          //     'assets/images/top.png',
-
-          //     width: 297.8,
-          //     height: 229,
-          //   ),
-          // ),
           Image.asset(
             'assets/images/background.jpg',
             fit: BoxFit.cover,
@@ -34,15 +61,15 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Column(
+                      const Column(
                         children: [
-                          const Center(
+                          Center(
                             child: Text('Login',
                                 style: TextStyle(
                                   color: Color(0xffED7E0D),
@@ -51,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 )),
                           ),
                           SizedBox(height: 5.0),
-                          const Center(
+                          Center(
                               child: Text('Sign In to continue',
                                   style: TextStyle(
                                     color: Color(0xffED7E0D),
@@ -60,28 +87,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ))),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 100,
                       ),
-                      
                       TextFormField(
-                        style: TextStyle(color:Colors.white, fontSize: 30),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 30),
                         decoration: InputDecoration(
-                          border: OutlineInputBorder(
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 4)),
+                            focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Colors.grey, width:4)),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                BorderSide(color: Colors.blue, width: 2.0),
-                          ),
-                          labelText: 'Email Address',
-                          labelStyle: TextStyle(color:Colors.white),
-                          hintText: 'Enter your email',
-                          hintStyle: TextStyle(color: Colors.white)
-                        ),
+                              borderSide: const BorderSide(
+                                  color: Colors.blue, width: 2.0),
+                            ),
+                            labelText: 'Email Address',
+                            labelStyle: const TextStyle(color: Colors.white),
+                            hintText: 'Enter your email',
+                            hintStyle: const TextStyle(color: Colors.white)),
                         validator: (value) {
-                          // Email validation (optional)
                           if (value!.isEmpty) {
                             return 'Please enter your email address';
                           }
@@ -89,30 +115,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         onSaved: (val) => setState(() => _email = val!),
                       ),
-                      SizedBox(height: 20.0),
+                      const SizedBox(height: 20.0),
                       TextFormField(
-                        style: TextStyle(color:Colors.white, fontSize: 30),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 30),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(color: Color.fromARGB(255, 113, 74, 60), width:4)),
+                              borderSide: const BorderSide(
+                                  color: Color.fromARGB(255, 113, 74, 60),
+                                  width: 4)),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide:
-                                BorderSide(color: Colors.blue, width: 2.0),
+                            borderSide: const BorderSide(
+                                color: Colors.blue, width: 2.0),
                           ),
                           labelText: 'Password',
-                        labelStyle: TextStyle(color: Colors.white),
+                          labelStyle: const TextStyle(color: Colors.white),
                           hintText: 'Enter your password',
-                          hintStyle: TextStyle(color: Colors.white),
-            
+                          hintStyle: const TextStyle(color: Colors.white),
                           suffixIcon: const Icon(Icons.visibility_off),
-
-                          // Optional: Password visibility toggle
                         ),
-                        obscureText: true, // Hide password input
+                        obscureText: true,
                         validator: (value) {
-                          // Password validation (optional)
                           if (value!.isEmpty) {
                             return 'Please enter your password';
                           }
@@ -120,33 +145,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         onSaved: (val) => setState(() => _password = val!),
                       ),
-                      SizedBox(height: 30.0),
+                      const SizedBox(height: 30.0),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                // Define your button styles here
-                                foregroundColor: Colors.white, // Text color
-                                backgroundColor:
-                                    Color(0xffED7E0D), // Button color
-                                shape: RoundedRectangleBorder(
-                                  // Border shape
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ) // Rounded corner
-                                ),
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                _formKey.currentState!.save();
-                                // Handle login logic here (e.g., call an API)
-                                // print('Email: $_email, Password: $_password');
-                                Navigator.pushReplacementNamed(
-                                    context, '/homepage');
-                              }
-                            },
-                            child: Text(
-                              'Login',
+                              foregroundColor: Colors.white,
+                              backgroundColor: const Color(0xffED7E0D),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
+                            onPressed: _loginUser,
+                            child: const Text('Login'),
                           ),
                         ],
                       ),

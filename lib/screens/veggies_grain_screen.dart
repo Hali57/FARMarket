@@ -7,6 +7,8 @@ import '../providers/produce_provider.dart';
 import '../models/produce_model.dart';
 
 class VeggiesGrainsScreen extends StatefulWidget {
+  const VeggiesGrainsScreen({super.key});
+
   @override
   _VeggiesGrainsScreenState createState() => _VeggiesGrainsScreenState();
 }
@@ -40,19 +42,19 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Veggies & Grains'),
-        backgroundColor: Color(0xFFF5E0C3),
+        title: const Text('Veggies & Grains'),
+        backgroundColor: const Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
             builder: (context, cart, child) {
               return Stack(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.shopping_cart),
+                    icon: const Icon(Icons.shopping_cart),
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CartScreen()),
+                        MaterialPageRoute(builder: (context) => const CartScreen()),
                       );
                     },
                   ),
@@ -61,18 +63,18 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
                       right: 11,
                       top: 11,
                       child: Container(
-                        padding: EdgeInsets.all(2),
+                        padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.red,
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        constraints: BoxConstraints(
+                        constraints: const BoxConstraints(
                           minWidth: 14,
                           minHeight: 14,
                         ),
                         child: Text(
                           '${cart.totalItems}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 10,
                           ),
@@ -100,7 +102,7 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
                 child: TextField(
                   decoration: InputDecoration(
                     hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
+                    prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -119,7 +121,7 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
 
                     return GridView.builder(
                       padding: const EdgeInsets.all(10),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 2 / 3,
                         crossAxisSpacing: 10,
@@ -137,26 +139,26 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
                                 child: Image.file(File(product.imageUrl),
                                     fit: BoxFit.cover),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Text(
                                 product.description,
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Text(
                                 product.location,
-                                style: TextStyle(fontSize: 14),
+                                style: const TextStyle(fontSize: 14),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Text(
                                 '\$${product.price.toStringAsFixed(2)}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, color: Colors.orange),
                                 textAlign: TextAlign.center,
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange,
@@ -174,11 +176,11 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
                                     SnackBar(
                                       content: Text(
                                           '${product.description} added to cart'),
-                                      duration: Duration(seconds: 2),
+                                      duration: const Duration(seconds: 2),
                                     ),
                                   );
                                 },
-                                child: Text('Add to Cart'),
+                                child: const Text('Add to Cart'),
                               ),
                             ],
                           ),
