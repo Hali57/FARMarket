@@ -39,9 +39,30 @@ class _LoginScreenState extends State<LoginScreen> {
           // Navigate to homepage or another screen upon successful login
           Navigator.pushReplacementNamed(context, '/homepage');
         }
+        // this is the failure logic
       } catch (e) {
-        print('Error: $e');
-        // Handle errors here (e.g., display error message)
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Center(
+                child: Text(
+              'User Not Found',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
+            content:
+                Text('Please check on the email / password and try again.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Center(
+                    child: Text(
+                  'OK',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+              ),
+            ],
+          ),
+        );
       }
     }
   }
