@@ -28,9 +28,6 @@ class _MarketScreenState extends State<MarketScreen> {
           .collection('users')
           .doc(user.uid)
           .get();
-      setState(() {
-        userRole = userDoc['role'];
-      });
     }
   }
 

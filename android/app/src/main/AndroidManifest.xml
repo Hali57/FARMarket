@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.farmboost.farmarket"> <!-- This is your application ID -->
 
+
+
     <application
         android:label="farmboost"
         android:name="${applicationName}"

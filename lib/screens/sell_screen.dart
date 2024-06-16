@@ -1,12 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:googleapis/servicemanagement/v1.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../models/produce_model.dart';
 import '../providers/produce_provider.dart';
-import 'dart:io';
 
 class SalesPage extends StatefulWidget {
-  const SalesPage({super.key});
+  const SalesPage({Key? key}) : super(key: key);
 
   @override
   _SalesPageState createState() => _SalesPageState();
@@ -19,6 +20,7 @@ class _SalesPageState extends State<SalesPage> {
   final _priceController = TextEditingController();
   String? _selectedCategory;
   File? _image;
+  bool _isSubmitting = false;
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -31,10 +33,16 @@ class _SalesPageState extends State<SalesPage> {
     }
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
+    if (_isSubmitting) return;
+
     if (_formKey.currentState!.validate() &&
         _image != null &&
         _selectedCategory != null) {
+      setState(() {
+        _isSubmitting = true;
+      });
+
       final newProduce = Produce(
         imageUrl: _image!.path,
         description: _descriptionController.text,
@@ -43,17 +51,55 @@ class _SalesPageState extends State<SalesPage> {
         category: _selectedCategory!,
       );
 
-      Provider.of<ProduceProvider>(context, listen: false)
-          .addProduce(newProduce);
-      Navigator.of(context).pop(); // Go back to the previous screen
+      try {
+        // Add or update produce in Firestore
+        await Provider.of<ProduceProvider>(context, listen: false)
+            .addProduce(newProduce, context);
+
+        // Navigate back to the previous screen
+        await Future.delayed(Duration(seconds: 1)); // Simulating some delay
+        if (!mounted) return;
+        Navigator.of(context).pop();
+      } catch (e) {
+        // Handle errors in the provider or Firestore operation
+        print('Error submitting form: $e');
+        _showErrorDialog(
+            context, 'Failed to submit the form. Please try again later.');
+      } finally {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    } else {
+      // Handle form validation errors or missing image/category
+      _showErrorDialog(
+          context, 'Please fill in all required fields and select an image.');
     }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Post Your Produce for Sale'),
+        title: Text('Post Your Produce for Sale'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,14 +115,14 @@ class _SalesPageState extends State<SalesPage> {
                     border: Border.all(color: Colors.grey),
                   ),
                   child: _image == null
-                      ? const Center(child: Text('Tap to add image'))
+                      ? Center(child: Text('Tap to add image'))
                       : Image.file(_image!, fit: BoxFit.cover),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(labelText: 'Description'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a description';
@@ -86,7 +132,7 @@ class _SalesPageState extends State<SalesPage> {
               ),
               TextFormField(
                 controller: _locationController,
-                decoration: const InputDecoration(labelText: 'Location'),
+                decoration: InputDecoration(labelText: 'Location'),
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Please enter a location';
@@ -96,7 +142,7 @@ class _SalesPageState extends State<SalesPage> {
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: const InputDecoration(labelText: 'Price per kg'),
+                decoration: InputDecoration(labelText: 'Price per kg'),
                 keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -109,7 +155,7 @@ class _SalesPageState extends State<SalesPage> {
                 },
               ),
               DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Category'),
+                decoration: InputDecoration(labelText: 'Category'),
                 items: ['Fruit', 'Vegetables', 'Grain'].map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
@@ -122,29 +168,21 @@ class _SalesPageState extends State<SalesPage> {
                   });
                 },
                 validator: (value) {
-                  if (value == null) {
+                  if (_selectedCategory == null) {
                     return 'Please select a category';
                   }
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: const Text('Submit'),
+                child: Text('Submit'),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _descriptionController.dispose();
-    _locationController.dispose();
-    _priceController.dispose();
-    super.dispose();
   }
 }

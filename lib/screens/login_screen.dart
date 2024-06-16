@@ -11,8 +11,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  late String _email;
-  late String _password;
+  String? _email;
+  String? _password;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void _loginUser() async {
@@ -22,8 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // Use Firebase Authentication to sign in with email and password
         final UserCredential userCredential =
             await _auth.signInWithEmailAndPassword(
-          email: _email,
-          password: _password,
+          email: _email!,
+          password: _password!,
         );
 
         // Fetch additional user data from Firestore if needed
@@ -39,26 +39,26 @@ class _LoginScreenState extends State<LoginScreen> {
           // Navigate to homepage or another screen upon successful login
           Navigator.pushReplacementNamed(context, '/homepage');
         }
-        // this is the failure logic
       } catch (e) {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
             title: Center(
-                child: Text(
-              'User Not Found',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            )),
-            content:
-                Text('Please check on the email / password and try again.'),
+              child: Text(
+                'Login Error',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+            content: Text(e.toString()),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
                 child: Center(
-                    child: Text(
-                  'OK',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )),
+                  child: Text(
+                    'OK',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
             ],
           ),
@@ -91,29 +91,34 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Column(
                         children: [
                           Center(
-                            child: Text('Login',
-                                style: TextStyle(
-                                  color: Color(0xffED7E0D),
-                                  fontSize: 38,
-                                  fontFamily: 'Poppins',
-                                )),
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                color: Color(0xffED7E0D),
+                                fontSize: 38,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
                           ),
                           SizedBox(height: 5.0),
                           Center(
-                              child: Text('Sign In to continue',
-                                  style: TextStyle(
-                                    color: Color(0xffED7E0D),
-                                    fontSize: 12,
-                                    fontFamily: 'Poppins',
-                                  ))),
+                            child: Text(
+                              'Sign In to continue',
+                              style: TextStyle(
+                                color: Color(0xffED7E0D),
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(
                         height: 100,
                       ),
                       TextFormField(
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 30),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 30),
                         decoration: InputDecoration(
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -129,17 +134,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: 'Enter your email',
                             hintStyle: const TextStyle(color: Colors.white)),
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your email address';
                           }
                           return null;
                         },
-                        onSaved: (val) => setState(() => _email = val!),
+                        onSaved: (val) => _email = val,
                       ),
                       const SizedBox(height: 20.0),
                       TextFormField(
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 30),
+                        style: const TextStyle(
+                            color: Colors.white, fontSize: 30),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
@@ -159,12 +164,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         obscureText: true,
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
                         },
-                        onSaved: (val) => setState(() => _password = val!),
+                        onSaved: (val) => _password = val,
                       ),
                       const SizedBox(height: 30.0),
                       Row(

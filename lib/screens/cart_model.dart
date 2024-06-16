@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class CartModel extends ChangeNotifier {
   final List<Product> _cart = [];
@@ -28,8 +29,10 @@ class CartModel extends ChangeNotifier {
   void decreaseQuantity(Product product) {
     if (product.quantity > 1) {
       product.quantity--;
-      notifyListeners();
+    } else {
+      _cart.remove(product);
     }
+    notifyListeners();
   }
 
   int get totalItems {

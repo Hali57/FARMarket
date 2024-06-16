@@ -33,6 +33,7 @@ migrate_working_dir/
 
 # json file
 google-services.json
+/assets/service_json.json
 
 # Symbolication related
 app.*.symbols

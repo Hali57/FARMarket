@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'cart_model.dart';
+import 'dart:io';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -22,29 +23,35 @@ class CartScreen extends StatelessWidget {
                     final product = cart.cart[index];
                     return Card(
                       child: ListTile(
-                        leading: Image.asset(product.imageUrl),
+                        leading: Image.file(File(product.imageUrl)), // Use Image.file for local images
                         title: Text(product.name),
-                        subtitle: Text('${product.description}\n\$${product.price.toStringAsFixed(2)}'),
-                        trailing: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.add),
-                              onPressed: () {
-                                cart.increaseQuantity(product);
-                              },
-                            ),
-                            Text('${product.quantity}'),
-                            IconButton(
-                              icon: const Icon(Icons.remove),
-                              onPressed: () {
-                                cart.decreaseQuantity(product);
-                                if (product.quantity == 0) {
-                                  cart.remove(product);
-                                }
-                              },
-                            ),
-                          ],
+                        subtitle: Text(
+                          '${product.description}\n\$${product.price.toStringAsFixed(2)}',
+                        ),
+                        trailing: Container(
+                          width: 96, // Adjust width to prevent overflow
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove),
+                                color: Colors.green, // Match the color with fruit_screen
+                                onPressed: () {
+                                  cart.decreaseQuantity(product);
+                                  if (product.quantity == 0) {
+                                    cart.remove(product);
+                                  }
+                                },
+                              ),
+                              Text('${product.quantity}'),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                color: Colors.green, // Match the color with fruit_screen
+                                onPressed: () {
+                                  cart.increaseQuantity(product);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     );
