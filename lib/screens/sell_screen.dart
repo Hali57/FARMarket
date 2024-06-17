@@ -100,7 +100,7 @@ class _SalesPageState extends State<SalesPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 248, 239, 225),
-        title: Center(child: Text('Post Your Produce for Sale')),
+        title: Center(child: Text('Post Your Produce for Sale', style: TextStyle(color: Color(0xff3FA843)),)),
       ),
       body: Container(
         child: Padding(
@@ -183,7 +183,7 @@ class _SalesPageState extends State<SalesPage> {
                         borderSide:
                             const BorderSide(color: Colors.blue, width: 2.0),
                       ),
-                      labelText: 'Price per kg'),
+                      labelText: 'Price'),
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.isEmpty) {

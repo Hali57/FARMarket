@@ -42,7 +42,9 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Veggies & Grains')),
+        title: Center(
+            child: const Text('Veggies & Grains',
+                style: TextStyle(color: Color(0xff3FA843)))),
         backgroundColor: const Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
@@ -50,7 +52,10 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
               return Stack(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.shopping_cart),
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      color: Color(0xffED7E0D),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,

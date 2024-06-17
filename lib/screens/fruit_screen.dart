@@ -39,7 +39,9 @@ class _FruitScreenState extends State<FruitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: const Text('Fruits')),
+        title: Center(
+            child: const Text('Fruits',
+                style: TextStyle(color: Color(0xff3FA843)))),
         backgroundColor: const Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
@@ -47,7 +49,10 @@ class _FruitScreenState extends State<FruitScreen> {
               return Stack(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.shopping_cart),
+                    icon: const Icon(
+                      Icons.shopping_cart,
+                      color: Color(0xffED7E0D),
+                    ),
                     onPressed: () {
                       Navigator.push(
                         context,
