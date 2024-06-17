@@ -64,14 +64,18 @@ class _HomePageState extends State<HomePage> {
 
     try {
       String fileName = '${user.uid}_${DateTime.now().millisecondsSinceEpoch}';
-      Reference storageRef = FirebaseStorage.instance.ref().child('profile_pictures/$fileName');
+      Reference storageRef =
+          FirebaseStorage.instance.ref().child('profile_pictures/$fileName');
 
       UploadTask uploadTask = storageRef.putFile(image);
       TaskSnapshot snapshot = await uploadTask;
 
       String downloadURL = await snapshot.ref.getDownloadURL();
 
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({
         'profilePicture': downloadURL,
       });
 
@@ -88,6 +92,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 248, 239, 225),
         title: Center(
           child: RichText(
             text: const TextSpan(
@@ -118,7 +123,10 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             FutureBuilder<DocumentSnapshot>(
-              future: FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
+              future: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user!.uid)
+                  .get(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const DrawerHeader(
@@ -139,7 +147,8 @@ class _HomePageState extends State<HomePage> {
                 }
 
                 final userData = snapshot.data!.data() as Map<String, dynamic>;
-                final profilePicture = userData['profilePicture'] ?? 'https://via.placeholder.com/150';
+                final profilePicture = userData['profilePicture'] ??
+                    'https://via.placeholder.com/150';
 
                 return UserAccountsDrawerHeader(
                   decoration: const BoxDecoration(
@@ -168,7 +177,8 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const ProfileScreen()),
                 );
               },
             ),

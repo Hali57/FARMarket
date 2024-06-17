@@ -39,7 +39,7 @@ class _FruitScreenState extends State<FruitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Fruits'),
+        title: Center(child: const Text('Fruits')),
         backgroundColor: const Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
@@ -51,7 +51,8 @@ class _FruitScreenState extends State<FruitScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const CartScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const CartScreen()),
                       );
                     },
                   ),
@@ -121,7 +122,8 @@ class _FruitScreenState extends State<FruitScreen> {
 
                     return GridView.builder(
                       padding: const EdgeInsets.all(10),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 2 / 3,
                         crossAxisSpacing: 10,

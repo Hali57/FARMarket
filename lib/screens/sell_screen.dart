@@ -99,87 +99,151 @@ class _SalesPageState extends State<SalesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Post Your Produce for Sale'),
+        backgroundColor: Color.fromARGB(255, 248, 239, 225),
+        title: Center(child: Text('Post Your Produce for Sale')),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              GestureDetector(
-                onTap: _pickImage,
-                child: Container(
-                  height: 200,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                GestureDetector(
+                  onTap: _pickImage,
+                  child: Container(
+                    height: 200,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                    ),
+                    child: _image == null
+                        ? Center(child: Text('Tap to add image'))
+                        : Image.file(_image!, fit: BoxFit.cover),
                   ),
-                  child: _image == null
-                      ? Center(child: Text('Tap to add image'))
-                      : Image.file(_image!, fit: BoxFit.cover),
                 ),
-              ),
-              SizedBox(height: 16),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Description'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a description';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a location';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price per kg'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a price';
-                  }
-                  if (double.tryParse(value) == null) {
-                    return 'Please enter a valid number';
-                  }
-                  return null;
-                },
-              ),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Category'),
-                items: ['Fruit', 'Vegetables', 'Grain'].map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value;
-                  });
-                },
-                validator: (value) {
-                  if (_selectedCategory == null) {
-                    return 'Please select a category';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Submit'),
-              ),
-            ],
+                SizedBox(height: 16),
+                TextFormField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 113, 74, 60),
+                              width: 4)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      labelText: 'Description'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a description';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFormField(
+                  controller: _locationController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 113, 74, 60),
+                              width: 4)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      labelText: 'Location'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a location';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                TextFormField(
+                  controller: _priceController,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 113, 74, 60),
+                              width: 4)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      labelText: 'Price per kg'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a price';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'Please enter a valid number';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                DropdownButtonFormField<String>(
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: const BorderSide(
+                              color: Color.fromARGB(255, 113, 74, 60),
+                              width: 4)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide:
+                            const BorderSide(color: Colors.blue, width: 2.0),
+                      ),
+                      labelText: 'Category'),
+                  items:
+                      ['Fruit', 'Vegetables', 'Grain'].map((String category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(category),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  },
+                  validator: (value) {
+                    if (_selectedCategory == null) {
+                      return 'Please select a category';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color(0xffED7E0D),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  onPressed: _submitForm,
+                  child: Text('Submit'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

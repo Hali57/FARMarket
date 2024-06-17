@@ -42,7 +42,7 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Veggies & Grains'),
+        title: Center(child: const Text('Veggies & Grains')),
         backgroundColor: const Color(0xFFF5E0C3),
         actions: [
           Consumer<CartModel>(
@@ -54,7 +54,8 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const CartScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => const CartScreen()),
                       );
                     },
                   ),
@@ -121,7 +122,8 @@ class _VeggiesGrainsScreenState extends State<VeggiesGrainsScreen> {
 
                     return GridView.builder(
                       padding: const EdgeInsets.all(10),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 2 / 3,
                         crossAxisSpacing: 10,
