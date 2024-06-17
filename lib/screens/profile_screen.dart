@@ -14,7 +14,8 @@ class ProfileScreen extends StatelessWidget {
         title: const Text('Profile'),
       ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
+        future:
+            FirebaseFirestore.instance.collection('users').doc(user!.uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -26,35 +27,28 @@ class ProfileScreen extends StatelessWidget {
 
           final userData = snapshot.data!.data() as Map<String, dynamic>;
 
+          final profilePicture =
+              userData['profilePicture'] ?? 'https://via.placeholder.com/150';
+
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 50,
-                  backgroundImage: NetworkImage(user.photoURL ?? 'https://via.placeholder.com/150'),
-                ),
-                const SizedBox(height: 10),
-                Text('Name: ${userData['name']}'),
-                Text('Email: ${user.email}'),
-                Text('Location: ${userData['location']}'),
-                Text('National ID: ${userData['nationalId']}'),
-                Text('Role: ${userData['role']}'),
-                if (userData['role'] == 'farmer') ...[
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/sell');
-                    },
-                    child: const Text('Sell a Product'),
+            child: Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(profilePicture),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/sales');
-                    },
-                    child: const Text('View Sales'),
+                  const SizedBox(height: 10),
+                  Text('Name: ${userData['fullName'] ?? 'No name'}',
+                      style: TextStyle(fontSize: 18, color: Color(0xff3FA843))),
+                  const SizedBox(height: 10),
+                  Text(
+                    'Wallet: \$${userData['wallet'] ?? 0.0}',
+                    style: TextStyle(fontSize: 18, color: Color(0xffED7E0D)),
                   ),
                 ],
-              ],
+              ),
             ),
           );
         },
