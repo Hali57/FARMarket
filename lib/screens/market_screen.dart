@@ -177,7 +177,7 @@ class _MarketScreenState extends State<MarketScreen> {
                         ),
                         child: const Center(
                           child: Text(
-                            'Eat Healthy Recipes',
+                            'Eat Healthy',
                             style: TextStyle(
                               fontSize: 18.0,
                               fontWeight: FontWeight.bold,

@@ -13,7 +13,8 @@ class LearnAndGrowScreen extends StatelessWidget {
       create: (context) => ArticleProvider()..fetchArticles(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Recipes'),
+          backgroundColor: const Color(0xFFF5E0C3),
+          title: Center(child: const Text('Healthy Meals')),
         ),
         body: Consumer<ArticleProvider>(
           builder: (context, provider, child) {
